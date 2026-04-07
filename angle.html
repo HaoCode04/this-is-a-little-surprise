@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>钝角</title>
+    <style>
+        body { margin: 0; background: #000; font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; color: white; }
+        .quiz-box { text-align: center; padding: 20px; }
+        .question { font-size: 20px; margin-bottom: 30px; font-weight: 300; }
+        .option { width: 260px; height: 50px; background: #1C1C1E; border: 1px solid #3A3A3C; border-radius: 12px; margin: 10px auto; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .option:active { background: #3A3A3C; }
+        .angle { font-size: 24px; font-weight: bold; color: #007AFF; }
+    </style>
+</head>
+<body>
+    <div class="quiz-box">
+        <div class="question">问：秀竹今天开心吗？</div>
+        <div class="option">A. 开心</div>
+        <div class="option">B. 非常开心</div>
+        <div class="option" onclick="alert('恭喜你掌握了万能答案！')">C. <span class="angle">钝角</span></div>
+        <p style="font-size: 12px; color: #8E8E93; margin-top: 40px;">// 别问，问就是钝角。</p>
+        <a href="birthday.html?status=end" style="color:#007AFF; text-decoration:none; font-size:14px;">返回上一页</a>
+    </div>
+</body>
+</html>

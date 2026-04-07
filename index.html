@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统状态</title>
+    <style>
+        :root { --ios-blue: #007AFF; }
+        body { margin: 0; background: #F2F2F7; font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .alert-card { width: 280px; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-radius: 14px; padding: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .title { font-weight: 600; font-size: 17px; margin-bottom: 5px; color: #000; }
+        .desc { font-size: 13px; color: #3A3A3C; line-height: 1.4; margin-bottom: 20px; }
+        .ios-btn { display: none; width: 100%; padding: 12px 0; color: var(--ios-blue); border-top: 1px solid #C6C6C8; text-decoration: none; font-weight: 600; font-size: 17px; cursor: pointer; }
+        .ios-btn:active { background: rgba(0,0,0,0.05); }
+        .timer { color: #8E8E93; font-size: 12px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="alert-card">
+        <div id="content">
+            <div class="title">网络连接中断</div>
+            <div class="desc">哎呦，你的网络好像卡了哟...</div>
+        </div>
+        <div id="timer" class="timer">5 秒后重试</div>
+        <a href=" real-index.html" id="nextBtn" class="ios-btn">继续</a>
+    </div>
+
+    <script>
+        let count = 5;
+        const timerText = document.getElementById('timer');
+        const content = document.getElementById('content');
+        const nextBtn = document.getElementById('nextBtn');
+
+        const countdown = setInterval(() => {
+            count--;
+            if (count > 0) {
+                timerText.innerText = count + " 秒后重试";
+            } else {
+                clearInterval(countdown);
+                timerText.style.display = 'none';
+                content.innerHTML = `
+                    <div class="title" style="color:#007AFF">连接成功</div>
+                    <div class="desc">页面由某位 <b style="color:#708090">iPhone 13 Pro Max 远峰蓝色 256G</b> 机主设计，已重新连接成功～</div>
+                `;
+                nextBtn.style.display = 'block';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

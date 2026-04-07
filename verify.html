@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>人机验证</title>
+    <style>
+        body { 
+            margin: 0; background: #FFF9FB; 
+            font-family: -apple-system, sans-serif; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; 
+            text-align: center;
+        }
+        .card { width: 90%; max-width: 360px; }
+        .title { color: #3A3A3C; line-height: 1.6; font-size: 18px; margin-bottom: 40px; padding: 0 10px; }
+        .title b { color: #FF8FA3; }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-link { text-decoration: none; -webkit-tap-highlight-color: transparent; }
+
+        .opt-card { 
+            height: 90px; border-radius: 22px; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: white; font-weight: 500;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .opt-link:active .opt-card { transform: scale(0.92); }
+
+        /* 马卡龙色系 */
+        .color-a { background: #FFDAC1; } /* 树 */
+        .color-b { background: #B5EAD7; } /* 竹 - 现在是第二个选项 */
+        .color-c { background: #E2F0CB; color: #666; }
+        .color-d { background: #C7CEEA; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="title">
+            为了证明您是一个自然人，请选择：<br>
+            “海压<b>【 ? 】</b>枝低复举，风吹山角晦还明”<br>
+            中指代的字：
+        </div>
+
+        <div class="options-grid">
+            <a href="failure.html" class="opt-link">
+                <div class="opt-card color-a">树</div>
+            </a>
+            
+            <a href="success.html" class="opt-link">
+                <div class="opt-card color-b">竹</div>
+            </a>
+
+            <a href="failure.html" class="opt-link">
+                <div class="opt-card color-c">桃</div>
+            </a>
+
+            <a href="failure.html" class="opt-link">
+                <div class="opt-card color-d">荔</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+

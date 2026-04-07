@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期解锁</title>
+    <style>
+        body { margin: 0; background: #F2F2F7; font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; width: 80%; max-width: 320px; }
+        select { width: 100px; height: 40px; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; margin: 10px; }
+        h2 { font-size: 18px; color: #3A3A3C; margin-bottom: 20px; }
+        .ios-btn { width: 100%; height: 45px; background: #007AFF; border: none; border-radius: 12px; color: white; font-size: 16px; margin-top: 25px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>请同步农历时空频率</h2>
+        <select id="month">
+            <option value="1">一月</option><option value="2">二月</option><option value="3">三月</option>
+        </select>
+        <select id="day">
+            <option value="25">二十五</option><option value="26">二十六</option><option value="27">二十七</option>
+        </select>
+        <div style="font-size: 12px; color: #8E8E93; margin-top: 15px;">小tips：今天不仅是二月廿六，更是一个重要的日子。</div>
+        <button class="ios-btn" onclick="checkDate()">继续</button>
+    </div>
+    <script>
+    function checkDate() {
+        const m = document.getElementById('month').value;
+        const d = document.getElementById('day').value;
+        // 修正逻辑判断
+        if (m == "2" && d == "26") { 
+            window.location.replace('puzzle.html'); // replace可以防止回退到日期选择页
+        } else {
+            alert('验证失败：日期与系统记录不匹配');
+        }
+    }
+</script>
+
+</body>
+</html>

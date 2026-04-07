@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Happy Birthday</title>
+    <style>
+        :root { --ios-blue: #007AFF; }
+        body { margin: 0; background: #F2F2F7; font-family: -apple-system, sans-serif; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 40px 20px; box-sizing: border-box; overflow: hidden; }
+        
+        /* 快速下落背景 */
+        .falling { position: absolute; top: -50px; font-size: 24px; z-index: 1; pointer-events: none; animation: drop linear forwards; }
+        @keyframes drop { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* 内容区 */
+        .content-area { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; position: relative; z-index: 10; }
+        .wish-text { position: absolute; font-size: 20px; color: #1C1C1E; text-align: center; font-weight: 500; transition: all 0.4s ease; opacity: 0; transform: scale(0.95); width: 85%; line-height: 1.6; }
+        .active { opacity: 1; transform: scale(1); }
+
+        /* 汇总列表 */
+        #all-wishes { display: none; text-align: center; list-style: none; padding: 0; font-size: 16px; color: #D81E5B; line-height: 2.2; animation: fadeIn 1s; }
+
+        /* 倒计时与蜡烛 */
+        #timer-box { font-size: 80px; font-weight: bold; color: var(--ios-blue); display: none; }
+        #candle-box { display: none; flex-direction: column; align-items: center; }
+        .candle { width: 35px; height: 90px; background: #FF8FA3; border-radius: 6px; position: relative; }
+        .flame { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 18px; height: 26px; background: #FFA500; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 15px #FFD700; animation: flicker 0.1s infinite; }
+        @keyframes flicker { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
+        .smoke { display: none; position: absolute; top: -20px; left: 50%; color: #8E8E93; font-size: 20px; animation: rise 2s forwards; }
+        @keyframes rise { from { opacity: 0.8; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -50px); } }
+
+        /* 底部按钮 */
+        .footer-btns { display: none; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 20px; z-index: 100; }
+        .show-flex { display: flex; animation: fadeIn 0.8s; }
+        .mini-btn { color: var(--ios-blue); text-decoration: none; font-size: 14px; background: none; border: none; cursor: pointer; padding: 10px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body onclick="handleTap()">
+
+    <div class="content-area" id="main">
+        <div id="w0" class="wish-text active">今天，你是主角~</div>
+        <div id="w1" class="wish-text">🎂 生日快乐 🎁</div>
+        <div id="w2" class="wish-text">新的一岁，希望你——</div>
+        <div id="w3" class="wish-text">科研一切顺利，电网如愿上岸；</div>
+        <div id="w4" class="wish-text">颜值与日俱增，财富稳步上涨；</div>
+        <div id="w5" class="wish-text">少点烦恼压力，多点轻松自在；</div>
+        <div id="w6" class="wish-text">生活心想事成，每天笑意常在。</div>
+        
+        <div id="timer-box">3</div>
+
+        <div id="candle-box">
+            <div class="candle"><div class="flame" id="flame"></div><div class="smoke" id="smoke">♨</div></div>
+            <p style="font-size: 14px; color: #8E8E93; margin-top: 20px;">许个愿，点击屏幕吹灭蜡烛</p>
+        </div>
+
+        <div id="w7" class="wish-text" style="font-weight: bold; color: #D81E5B;">22岁生日快乐，张秀竹</div>
+
+        <ul id="all-wishes">
+            <li>今天，你是主角~</li>
+            <li>🎂 生日快乐 🎁</li>
+            <li>新的一岁，希望你——</li>
+            <li>科研一切顺利，电网如愿上岸；</li>
+            <li>颜值与日俱增，财富稳步上涨；</li>
+            <li>少点烦恼压力，多点轻松自在；</li>
+            <li>生活心想事成，每天笑意常在。</li>
+            <li style="font-weight: bold;">22岁生日快乐，张秀竹</li>
+        </ul>
+    </div>
+
+    <div class="footer-btns" id="footer">
+        <button class="mini-btn" onclick="showAll(event)" style="font-weight: 600;">显示全部祝福</button>
+        <div style="display: flex; gap: 30px;">
+            <a href="index.html" class="mini-btn">返回第一页</a>
+            <a href="egg.html?status=end" class="mini-btn">彩蛋</a>
+            <a href="angle.html?status=end" class="mini-btn">钝角</a>
+        </div>
+    </div>
+
+    <script>
+        let step = 0;
+        let isWaitingForBlow = false;
+        const total = 7; 
+
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('status') === 'end') {
+                showAll();
+            }
+        };
+
+        function createDrop() {
+            const drop = document.createElement('div');
+            drop.className = 'falling';
+            drop.innerHTML = ['🎂','🍰','✨','💖','🧁'][Math.floor(Math.random()*5)];
+            drop.style.left = Math.random() * 100 + 'vw';
+            const speed = Math.random() * 0.8 + 1.2; // 快速下落
+            drop.style.animationDuration = speed + 's';
+            document.body.appendChild(drop);
+            setTimeout(() => drop.remove(), speed * 1000);
+        }
+        setInterval(createDrop, 200);
+
+        function handleTap() {
+            if (isWaitingForBlow) { blowCandle(); return; }
+            if (step < total - 1) {
+                document.getElementById('w' + step).classList.remove('active');
+                step++;
+                document.getElementById('w' + step).classList.add('active');
+            } else if (step === total - 1) {
+                startCountdown();
+            }
+        }
+
+        function startCountdown() {
+            document.getElementById('w' + (total-1)).classList.remove('active');
+            const timerBox = document.getElementById('timer-box');
+            timerBox.style.display = 'block';
+            let count = 3;
+            const timer = setInterval(() => {
+                count--;
+                if (count > 0) { timerBox.innerText = count; }
+                else {
+                    clearInterval(timer);
+                    timerBox.style.display = 'none';
+                    showCandle();
+                }
+            }, 1000);
+            step = 98; 
+        }
+
+        function showCandle() {
+            document.getElementById('candle-box').style.display = 'flex';
+            isWaitingForBlow = true;
+        }
+
+        function blowCandle() {
+            isWaitingForBlow = false;
+            document.getElementById('flame').style.display = 'none';
+            document.getElementById('smoke').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('candle-box').style.display = 'none';
+                document.getElementById('w7').classList.add('active');
+                document.getElementById('footer').classList.add('show-flex');
+            }, 1200);
+        }
+
+        function showAll(e) {
+            if(e) e.stopPropagation();
+            const elements = document.querySelectorAll('.wish-text, #timer-box, #candle-box');
+            elements.forEach(el => el.style.display = 'none');
+            document.getElementById('all-wishes').style.display = 'block';
+            document.getElementById('footer').classList.add('show-flex');
+            step = 99;
+        }
+    </script>
+</body>
+</html>
